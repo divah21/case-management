@@ -59,9 +59,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  {
-    basename: '/case-management',
-  },
+ 
 );
 
 export default router;
