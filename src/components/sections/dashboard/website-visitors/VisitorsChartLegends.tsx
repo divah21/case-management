@@ -12,17 +12,22 @@ export const legendsData = [
   {
     id: 1,
     type: 'Unlawful Entry',
-    rate: '80%',
+    rate: '1k cases',
   },
   {
     id: 2,
     type: 'Fraud',
-    rate: '10%',
+    rate: '500 cases',
   },
   {
     id: 3,
-    type: 'Theft and Assault',
-    rate: '10%',
+    type: 'Theft',
+    rate: '800 cases',
+  },
+  {
+    id: 4,
+    type: 'Assault',
+    rate: '1.5k Cases',
   },
 ];
 
@@ -49,7 +54,10 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
       return theme.palette.primary.main;
     } else if (type === 'Fraud') {
       return theme.palette.secondary.lighter;
-    } else if (type === 'Theft and Assault') {
+    } else if (type === 'Theft') {
+      return theme.palette.secondary.main;
+    }
+    else if (type === 'Assault') {
       return theme.palette.secondary.main;
     }
   };
@@ -59,7 +67,10 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
       return theme.palette.primary.dark;
     } else if (type === 'Fraud') {
       return theme.palette.secondary.darker;
-    } else if (type === 'Theft and Assault') {
+    } else if (type === 'Theft') {
+      return theme.palette.secondary.dark;
+    }
+    else if (type === 'Assault') {
       return theme.palette.secondary.dark;
     }
   };
@@ -75,9 +86,13 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
       setToggleColor({ organic: true, social: false, direct: false });
     } else if (type === 'Fraud') {
       setToggleColor({ organic: false, social: true, direct: false });
-    } else if (type === 'Theft and Assault') {
+    } else if (type === 'Theft') {
       setToggleColor({ organic: false, social: false, direct: true });
-    } else {
+    }
+    else if (type === 'Assault') {
+      setToggleColor({ organic: false, social: false, direct: true });
+    }
+     else {
       setToggleColor({ organic: true, social: true, direct: true });
     }
 
@@ -104,7 +119,7 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
   };
 
   return (
-    <Stack mt={-1} spacing={3} direction="column">
+    <Stack mt={-1} spacing={2} direction="column">
       {legendsData.map((item) => (
         <VisitorsChartLegend
           key={item.id}

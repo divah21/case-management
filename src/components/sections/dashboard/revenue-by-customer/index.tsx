@@ -21,8 +21,12 @@ export const revenueData = {
       data: [120, 200, 260, 120, 1000, 320, 600, 800, 1200, 1800, 160, 60],
     },
     {
-      name: 'Theft and Assault',
+      name: 'Theft',
       data: [500, 260, 80, 90, 800, 140, 0, 380, 140, 300, 160, 280],
+    },
+    {
+      name: 'Assault',
+      data: [300, 200, 70, 90, 100, 170, 60, 30, 240, 400, 60, 80],
     },
   ],
 };
@@ -41,7 +45,7 @@ const RevenueByCustomer = () => {
       <Stack justifyContent="space-between" mt={1}>
         <Stack alignItems="center" gap={0.875}>
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
-            2.5K
+            3K
           </Typography>
           <RateChip rate={'6.5%'} isUp={true} />
         </Stack>

@@ -20,8 +20,12 @@ const legendsData = [
   },
   {
     id: 3,
-    type: 'Theft and Assault',
+    type: 'Theft',
   },
+  {
+    id: 4,
+    type: 'Assault'
+  }
 ];
 
 const RevenueChartLegends = ({ chartRef, sm }: LegendsProps) => {
@@ -39,7 +43,10 @@ const RevenueChartLegends = ({ chartRef, sm }: LegendsProps) => {
       setToggleColor({ ...toggleColor, currentClients: !toggleColor.currentClients });
     } else if (seriesName === 'Fraud') {
       setToggleColor({ ...toggleColor, subscribers: !toggleColor.subscribers });
-    } else if (seriesName === 'Theft and Assault') {
+    } else if (seriesName === 'Theft') {
+      setToggleColor({ ...toggleColor, newCustomers: !toggleColor.newCustomers });
+    }
+    else if (seriesName === 'Assault') {
       setToggleColor({ ...toggleColor, newCustomers: !toggleColor.newCustomers });
     }
 

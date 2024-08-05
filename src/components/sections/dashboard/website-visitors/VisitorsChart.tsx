@@ -42,7 +42,7 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
       radiusAxis: {
         show: false,
         type: 'category',
-        data: ['Unlawful Entry', 'Fraud', 'Theft and Assault'],
+        data: ['Unlawful Entry', 'Fraud', 'Theft', 'Assault'],
       },
       tooltip: {},
       series: [
@@ -51,7 +51,7 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
           data: [
             {
               type: 'Unlawful Entry',
-              value: 80,
+              value: 40,
               itemStyle: {
                 color: theme.palette.secondary.main,
               },
@@ -64,8 +64,15 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
               },
             },
             {
-              type: 'Theft and Assault',
+              type: 'Theft',
               value: 10,
+              itemStyle: {
+                color: theme.palette.primary.main,
+              },
+            },
+            {
+              type: 'Assault',
+              value: 40,
               itemStyle: {
                 color: theme.palette.primary.main,
               },

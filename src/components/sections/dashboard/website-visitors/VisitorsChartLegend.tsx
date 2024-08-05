@@ -21,13 +21,17 @@ interface LegendProps {
 const VisitorsChartLegend = ({ data, toggleColor, handleToggleLegend }: LegendProps) => {
   let color = '';
 
-  if (toggleColor.organic && data.type === 'Organic') {
+  if (toggleColor.organic && data.type === 'Unlawful Entry') {
     color = 'primary.main';
-  } else if (toggleColor.social && data.type === 'Social') {
+  } else if (toggleColor.social && data.type === 'fraud') {
     color = 'secondary.lighter';
-  } else if (toggleColor.direct && data.type === 'Direct') {
+  } else if (toggleColor.direct && data.type === 'Theft') {
     color = 'secondary.light';
-  } else {
+  }
+  else if (toggleColor.direct && data.type === 'Assault') {
+    color = 'secondary.light';
+  }
+   else {
     color = 'text.secondary';
   }
 

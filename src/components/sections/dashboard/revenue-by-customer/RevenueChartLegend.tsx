@@ -24,9 +24,12 @@ const RevenueChartLegend = ({ data, toggleColor, handleLegendToggle }: LegendPro
     color = 'primary.main';
   } else if (toggleColor.subscribers && data.type === 'Fraud') {
     color = 'secondary.lighter';
-  } else if (toggleColor.newCustomers && data.type === 'Theft and Assault') {
+  } else if (toggleColor.newCustomers && data.type === 'Theft ') {
     color = 'secondary.light';
-  } else {
+  } else if (toggleColor.newCustomers && data.type === 'Assault') {
+    color = 'secondary.light';
+  }
+   else {
     color = 'text.secondary';
   }
 
