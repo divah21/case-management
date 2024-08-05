@@ -91,7 +91,7 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
           left: 'center',
           top: 'middle',
           style: {
-            text: '2k Total',
+            text: '3k Total',
             fill: theme.palette.text.primary,
             fontSize: theme.typography.h3.fontSize,
             fontFamily: fontFamily.workSans,
