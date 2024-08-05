@@ -11,18 +11,18 @@ interface LegendsProps {
 export const legendsData = [
   {
     id: 1,
-    type: 'Violent Crimes',
+    type: 'Unlawful Entry',
     rate: '80%',
   },
   {
     id: 2,
-    type: 'Property Crimes',
-    rate: '60%',
+    type: 'Fraud',
+    rate: '10%',
   },
   {
     id: 3,
-    type: 'White-Collar Crimes',
-    rate: '50%',
+    type: 'Theft and Assault',
+    rate: '10%',
   },
 ];
 
@@ -45,21 +45,21 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
   }, []);
 
   const getActiveColor = (type: string) => {
-    if (type === 'Violent Crimes') {
+    if (type === 'Unlawful Entry') {
       return theme.palette.primary.main;
-    } else if (type === 'Property Crimes') {
+    } else if (type === 'Fraud') {
       return theme.palette.secondary.lighter;
-    } else if (type === 'White-Collar Crimes') {
+    } else if (type === 'Theft and Assault') {
       return theme.palette.secondary.main;
     }
   };
 
   const getDisableColor = (type: string) => {
-    if (type === 'Violent Crimes') {
+    if (type === 'Unlawful Entry') {
       return theme.palette.primary.dark;
-    } else if (type === 'Property Crimes') {
+    } else if (type === 'Fraud') {
       return theme.palette.secondary.darker;
-    } else if (type === 'White-Collar Crimes') {
+    } else if (type === 'Theft and Assault') {
       return theme.palette.secondary.dark;
     }
   };
@@ -71,11 +71,11 @@ const VisitorsChartLegends = ({ chartRef }: LegendsProps) => {
 
     const option = echartsInstance.getOption() as echarts.EChartsOption;
 
-    if (type === 'Violent Crimes') {
+    if (type === 'Unlawful Entry') {
       setToggleColor({ organic: true, social: false, direct: false });
-    } else if (type === 'Property Crimes') {
+    } else if (type === 'Fraud') {
       setToggleColor({ organic: false, social: true, direct: false });
-    } else if (type === 'White-Collar Crimes') {
+    } else if (type === 'Theft and Assault') {
       setToggleColor({ organic: false, social: false, direct: true });
     } else {
       setToggleColor({ organic: true, social: true, direct: true });

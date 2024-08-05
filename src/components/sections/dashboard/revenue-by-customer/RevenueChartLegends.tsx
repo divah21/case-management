@@ -12,15 +12,15 @@ interface LegendsProps {
 const legendsData = [
   {
     id: 1,
-    type: 'Violent Crimes',
+    type: 'Unlawful Entry',
   },
   {
     id: 2,
-    type: 'Property Crimes',
+    type: 'Fraud',
   },
   {
     id: 3,
-    type: 'White-Collar Crimes',
+    type: 'Theft and Assault',
   },
 ];
 
@@ -35,11 +35,11 @@ const RevenueChartLegends = ({ chartRef, sm }: LegendsProps) => {
     const echartsInstance = chartRef.current?.getEchartsInstance();
     if (!echartsInstance) return;
 
-    if (seriesName === 'Violent Crimes') {
+    if (seriesName === 'Unlawful Entry') {
       setToggleColor({ ...toggleColor, currentClients: !toggleColor.currentClients });
-    } else if (seriesName === 'Property Crimes') {
+    } else if (seriesName === 'Fraud') {
       setToggleColor({ ...toggleColor, subscribers: !toggleColor.subscribers });
-    } else if (seriesName === 'White-Collar Crimes') {
+    } else if (seriesName === 'Theft and Assault') {
       setToggleColor({ ...toggleColor, newCustomers: !toggleColor.newCustomers });
     }
 

@@ -13,15 +13,15 @@ export const revenueData = {
   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   series: [
     {
-      name: 'Violent Crimes',
+      name: 'Unlawful Entry',
       data: [100, 50, 200, 360, 1600, 240, 100, 440, 120, 60, 1200, 2400],
     },
     {
-      name: 'Property Crimes',
+      name: 'Fraud',
       data: [120, 200, 260, 120, 1000, 320, 600, 800, 1200, 1800, 160, 60],
     },
     {
-      name: 'White-Collar Crimes',
+      name: 'Theft and Assault',
       data: [500, 260, 80, 90, 800, 140, 0, 380, 140, 300, 160, 280],
     },
   ],

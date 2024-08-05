@@ -20,11 +20,11 @@ interface LegendProps {
 const RevenueChartLegend = ({ data, toggleColor, handleLegendToggle }: LegendProps) => {
   let color = '';
 
-  if (toggleColor.currentClients && data.type === 'Violent Crimes') {
+  if (toggleColor.currentClients && data.type === 'Unlawful Entry') {
     color = 'primary.main';
-  } else if (toggleColor.subscribers && data.type === 'Property Crimes') {
+  } else if (toggleColor.subscribers && data.type === 'Fraud') {
     color = 'secondary.lighter';
-  } else if (toggleColor.newCustomers && data.type === 'White-Collar Crimes') {
+  } else if (toggleColor.newCustomers && data.type === 'Theft and Assault') {
     color = 'secondary.light';
   } else {
     color = 'text.secondary';

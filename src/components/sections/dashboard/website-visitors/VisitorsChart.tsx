@@ -42,7 +42,7 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
       radiusAxis: {
         show: false,
         type: 'category',
-        data: ['Violent Crimes', 'Property Crimes', 'White-Collar Crimes'],
+        data: ['Unlawful Entry', 'Fraud', 'Theft and Assault'],
       },
       tooltip: {},
       series: [
@@ -50,22 +50,22 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
           type: 'bar',
           data: [
             {
-              type: 'Violent Crimes',
-              value: 50,
+              type: 'Unlawful Entry',
+              value: 80,
               itemStyle: {
                 color: theme.palette.secondary.main,
               },
             },
             {
-              type: 'Property Crimes',
-              value: 60,
+              type: 'Fraud',
+              value: 10,
               itemStyle: {
                 color: theme.palette.secondary.lighter,
               },
             },
             {
-              type: 'White-Collar Crimes',
-              value: 80,
+              type: 'Theft and Assault',
+              value: 10,
               itemStyle: {
                 color: theme.palette.primary.main,
               },
