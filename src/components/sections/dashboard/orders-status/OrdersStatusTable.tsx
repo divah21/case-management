@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ordersStatusData } from 'data/ordersStatusData';
-import { SelectChangeEvent } from '@mui/material';
+import { Box, Button, Grid, Modal, SelectChangeEvent } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -32,6 +32,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
   const apiRef = useGridApiRef<GridApi>();
   const [rows, setRows] = useState(ordersStatusData);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [selectedRow, setSelectedRow] = useState<GridRowModel | null>(null);
 
   useEffect(() => {
     apiRef.current.setQuickFilterValues(searchText.split(/\b\W+\b/).filter((word) => word !== ''));
@@ -43,9 +44,11 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
     }
   };
 
+  const handleClose = () => setSelectedRow(null);
+
   const handleViewClick = (id: GridRowId) => () => {
-    console.log(`View button clicked for row with id ${id}`);
-    // Add your view logic here, for example, navigation to another page
+    const rowData = rows.find((row) => row.id === id);
+    setSelectedRow(rowData || null);
   };
 
   const handleEditClick = (id: GridRowId) => () => {
@@ -85,14 +88,14 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
   const columns: GridColDef[] = [
     {
       field: 'id',
-      headerName: 'Case ID',
+      headerName: 'CR',
       minWidth: 80,
       flex: 1,
       resizable: false,
     },
     {
       field: 'client',
-      headerName: 'Reported By',
+      headerName: 'Complainant Name',
       flex: 2,
       minWidth: 180,
       resizable: false,
@@ -100,7 +103,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
         <Stack alignItems="center" gap={0.75}>
           <IconifyIcon icon="mingcute:user-2-fill" color="neutral.main" fontSize="body2.fontSize" />
           <Typography variant="caption" mt={0.25} letterSpacing={0.5}>
-            Reported By
+          Complainant Name
           </Typography>
         </Stack>
       ),
@@ -160,7 +163,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
       ),
       renderCell: (params) => {
         return (
-          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1,  }}>
+          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
             <StatusChip status={params.value} />
           </Stack>
         );
@@ -175,7 +178,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
         };
         return (
           <Select value={params.value} onChange={handleChange} fullWidth>
-            <MenuItem value="solved" >Solved</MenuItem>
+            <MenuItem value="solved">Solved</MenuItem>
             <MenuItem value="pending">Pending</MenuItem>
             <MenuItem value="canceled">Canceled</MenuItem>
           </Select>
@@ -231,10 +234,21 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
         actions.push(
           <button
             onClick={handleViewClick(id)}
-            style={{ marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 4, backgroundColor: '#475569', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+            style={{
+              marginRight: 8,
+              paddingLeft: 8,
+              paddingRight: 8,
+              paddingTop: 4,
+              paddingBottom: 4,
+              backgroundColor: '#475569',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer',
+            }}
           >
             View
-          </button>
+          </button>,
         );
 
         if (isInEditMode) {
@@ -263,7 +277,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
               label="Cancel"
               onClick={handleCancelClick(id)}
               size="small"
-            />
+            />,
           );
         } else {
           // Add Edit and Delete buttons when not in edit mode
@@ -291,7 +305,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
               label="Delete"
               onClick={handleDeleteClick(id)}
               size="small"
-            />
+            />,
           );
         }
 
@@ -301,35 +315,202 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
   ];
 
   return (
-    <DataGrid
-      apiRef={apiRef}
-      rows={rows}
-      columns={columns}
-      rowHeight={80}
-      editMode="row"
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 6,
+    <>
+      <DataGrid
+        apiRef={apiRef}
+        rows={rows}
+        columns={columns}
+        rowHeight={80}
+        editMode="row"
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 6,
+            },
           },
-        },
-      }}
-      checkboxSelection
-      pageSizeOptions={[6]}
-      disableColumnMenu
-      disableVirtualization
-      disableRowSelectionOnClick
-      rowModesModel={rowModesModel}
-      onRowModesModelChange={handleRowModesModelChange}
-      onRowEditStop={handleRowEditStop}
-      processRowUpdate={processRowUpdate}
-      slots={{
-        pagination: DataGridFooter,
-      }}
-      slotProps={{
-        toolbar: { setRows, setRowModesModel },
-      }}
-    />
+        }}
+        checkboxSelection
+        pageSizeOptions={[6]}
+        disableColumnMenu
+        disableVirtualization
+        disableRowSelectionOnClick
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        slots={{
+          pagination: DataGridFooter,
+        }}
+        slotProps={{
+          toolbar: { setRows, setRowModesModel },
+        }}
+      />
+      <Modal
+        open={!!selectedRow} // Open modal if a row is selected
+        onClose={handleClose}
+        aria-labelledby="view-case-modal"
+        aria-describedby="view-case-modal-description"
+      >
+        <Box
+          sx={{
+            width: '90%',
+            height: '95%',
+            backgroundColor: '#081028',
+            color: '#fff',
+            padding: '20px',
+            margin: 'auto',
+            marginTop: '2%',
+            borderRadius: '8px',
+            overflowY: 'auto',
+          }}
+        >
+          {selectedRow && (
+            <Grid container spacing={3} sx={{paddingBottom: 10,}}>
+
+              <Grid item xs={12}>
+                <Typography variant="h2" className="sub-header" color='primary'>
+                  Case Details
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="h5" gutterBottom>
+                Case ID: {selectedRow.id}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Client:</strong> {selectedRow.client.name} ({selectedRow.client.email})
+              </Typography>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Date:</strong> {selectedRow.date.toDateString()}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Status:</strong> {selectedRow.status}
+              </Typography>
+             </Grid>
+
+             <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Country:</strong> {selectedRow.country}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Total:</strong> {selectedRow.total}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+              <Typography variant="h3" className="sub-header">
+                Complainant Information
+              </Typography>
+            </Grid>
+              
+            <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Complainant Name:</strong> {selectedRow.complainant_name}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Complainant Contact:</strong> {selectedRow.complainant_contact}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Complainant Address:</strong> {selectedRow.complainant_address}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+              <Typography variant="h3" className="sub-header">
+                Accused Information
+              </Typography>
+            </Grid>
+              
+            <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Accused Name:</strong> {selectedRow.accused_name}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+              <Typography variant="h3" className="sub-header">
+                Case Information
+              </Typography>
+            </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Offence:</strong> {selectedRow.offence}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Date of Occurrence:</strong> {selectedRow.date_occurance}
+              </Typography>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Place of Occurrence:</strong> {selectedRow.place_of_occurance}
+              </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Modus Operandi:</strong> {selectedRow.mod_operandi}
+              </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Property List:</strong> {selectedRow.property_list}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Value Stolen:</strong> {selectedRow.value_stolen}
+              </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Value Recorded:</strong> {selectedRow.value_recorded}
+              </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Exhibit Book Reference:</strong> {selectedRow.exhibit_book_ref}
+              </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Investigation Officer:</strong> {selectedRow.investigation_officer}
+              </Typography>
+              </Grid>
+              
+            </Grid>
+
+            
+          )}
+           <Button variant='contained' color='primary' onClick={handleClose} style={{ height: 40 }}  >
+            Close
+          </Button>
+        </Box>
+      </Modal>
+    </>
   );
 };
 

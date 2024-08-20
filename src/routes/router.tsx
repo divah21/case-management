@@ -7,6 +7,7 @@ import AuthLayout from 'layouts/auth-layout';
 import Splash from 'components/loading/Splash';
 import PageLoader from 'components/loading/PageLoader';
 import paths from './paths';
+import Case from 'pages/case';
 
 const App = lazy(() => import('App'));
 const Dashboard = lazy(() => import('pages/dashboard'));
@@ -36,6 +37,10 @@ const router = createBrowserRouter(
               index: true,
               element: <Dashboard />,
             },
+            {
+              path: '/dashboard/case',
+              element: <Case/>
+            }
           ],
         },
         {

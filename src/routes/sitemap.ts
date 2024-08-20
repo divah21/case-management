@@ -22,15 +22,16 @@ const sitemap: MenuItem[] = [
   {
     id: 'dashboard',
     subheader: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: 'mingcute:home-1-fill',
     active: true,
   },
   {
     id: 'features',
-    subheader: 'Features',
-    path: '/',
+    subheader: 'Report A case',
+    path: 'case',
     icon: 'mingcute:star-fill',
+    active: true,
   },
   {
     id: 'users',
