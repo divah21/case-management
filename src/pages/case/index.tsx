@@ -20,11 +20,16 @@ interface CaseFormData {
   complainant_name: string;
   complainant_reg: string;
   complainant_dept: string;
+  complainant_programme: string;
+  complainant_age: string;
   complainant_gender: string;
   complainant_address: string;
   complainant_contact: string;
   accused_name: string;
+  accused_reg: string;
   accused_dept: string;
+  accused_programme: string;
+  accused_age: string;
   accused_gender: string;
   accused_address: string;
   accused_contact: string;
@@ -34,9 +39,12 @@ interface CaseFormData {
   mod_operandi: string;
   property_list: string;
   value_stolen: string;
-  value_recorded: string;
+  value_recovered: string;
   exhibit_book_ref: string;
   investigation_officer: string;
+  investigation_desig: string;
+  investigation_date: string;
+
 }
 
 // Define validation schema using Zod
@@ -49,11 +57,16 @@ const CaseFormValidation = z.object({
   complainant_name: z.string().optional(),
   complainant_reg: z.string().optional(),
   complainant_dept: z.string().optional(),
+  complainant_programme: z.string().optional(),
+  complainant_age: z.string().optional(),
   complainant_gender: z.string().optional(),
   complainant_address: z.string().optional(),
   complainant_contact: z.string().optional(),
   accused_name: z.string().optional(),
+  accused_reg: z.string().optional(),
   accused_dept: z.string().optional(),
+  accused_programme: z.string().optional(),
+  accused_age: z.string().optional(),
   accused_gender: z.string().optional(),
   accused_address: z.string().optional(),
   accused_contact: z.string().optional(),
@@ -63,9 +76,11 @@ const CaseFormValidation = z.object({
   mod_operandi: z.string().optional(),
   property_list: z.string().optional(),
   value_stolen: z.string().optional(),
-  value_recorded: z.string().optional(),
+  value_recovered: z.string().optional(),
   exhibit_book_ref: z.string().optional(),
   investigation_officer: z.string().optional(),
+  investigation_desig: z.string().optional(),
+  investigation_date: z.string().optional(),
 });
 
 // Default values for the form
@@ -78,11 +93,16 @@ const CaseFormDefaultValues: CaseFormData = {
   complainant_name: '',
   complainant_reg: '',
   complainant_dept: '',
+  complainant_programme: '',
+  complainant_age: '',
   complainant_gender: '',
   complainant_address: '',
   complainant_contact: '',
   accused_name: '',
+  accused_reg: '',
   accused_dept: '',
+  accused_programme: '',
+  accused_age: '',
   accused_gender: '',
   accused_address: '',
   accused_contact: '',
@@ -92,9 +112,11 @@ const CaseFormDefaultValues: CaseFormData = {
   mod_operandi: '',
   property_list: '',
   value_stolen: '',
-  value_recorded: '',
+  value_recovered: '',
   exhibit_book_ref: '',
   investigation_officer: '',
+  investigation_desig: '',
+  investigation_date: '',
 };
 
 const Case = () => {
@@ -161,7 +183,7 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('date_received')}
                 fullWidth
@@ -175,7 +197,7 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('time_received')}
                 fullWidth
@@ -228,7 +250,18 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('complainant_programme')}
+                fullWidth
+                label="Programme"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_gender}
+                helperText={form.formState.errors.complainant_gender?.message}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('complainant_gender')}
                 fullWidth
@@ -239,7 +272,7 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('complainant_address')}
                 fullWidth
@@ -250,7 +283,18 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('complainant_age')}
+                fullWidth
+                label="Age"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_gender}
+                helperText={form.formState.errors.complainant_gender?.message}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('complainant_contact')}
                 fullWidth
@@ -260,6 +304,7 @@ const Case = () => {
                 helperText={form.formState.errors.complainant_contact?.message}
               />
             </Grid>
+           
 
             {/* Accused Information */}
             <Grid item xs={12}>
@@ -268,7 +313,7 @@ const Case = () => {
               </Typography>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('accused_name')}
                 fullWidth
@@ -278,8 +323,18 @@ const Case = () => {
                 helperText={form.formState.errors.accused_name?.message}
               />
             </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('accused_reg')}
+                fullWidth
+                label="Registration Number"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_gender}
+                helperText={form.formState.errors.complainant_gender?.message}
+              />
+            </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('accused_dept')}
                 fullWidth
@@ -290,7 +345,18 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('accused_programme')}
+                fullWidth
+                label="Programme"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_gender}
+                helperText={form.formState.errors.complainant_gender?.message}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('accused_gender')}
                 fullWidth
@@ -301,7 +367,7 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('accused_address')}
                 fullWidth
@@ -312,7 +378,18 @@ const Case = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('accused_age')}
+                fullWidth
+                label="Age"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_gender}
+                helperText={form.formState.errors.complainant_gender?.message}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('accused_contact')}
                 fullWidth
@@ -326,7 +403,7 @@ const Case = () => {
             {/* Case Information */}
             <Grid item xs={12}>
               <Typography variant="h2" className="sub-header">
-                Case Information
+                Offence | Misconduct
               </Typography>
             </Grid>
 
@@ -378,10 +455,16 @@ const Case = () => {
             </Grid>
 
             <Grid item xs={12}>
+              <Typography variant="h2" className="sub-header">
+                Property
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
               <TextField
                 {...form.register('property_list')}
                 fullWidth
-                label="Type of Property | Item"
+                label="List (Invl S/N)"
                 variant="outlined"
                 error={!!form.formState.errors.property_list}
                 helperText={form.formState.errors.property_list?.message}
@@ -392,7 +475,7 @@ const Case = () => {
               <TextField
                 {...form.register('value_stolen')}
                 fullWidth
-                label="Value of Property Stolen"
+                label="Value of Property Stolen | Damaged"
                 variant="outlined"
                 error={!!form.formState.errors.value_stolen}
                 helperText={form.formState.errors.value_stolen?.message}
@@ -401,12 +484,12 @@ const Case = () => {
 
             <Grid item xs={12} md={6}>
               <TextField
-                {...form.register('value_recorded')}
+                {...form.register('value_recovered')}
                 fullWidth
                 label="Value Recorded"
                 variant="outlined"
-                error={!!form.formState.errors.value_recorded}
-                helperText={form.formState.errors.value_recorded?.message}
+                error={!!form.formState.errors.value_recovered}
+                helperText={form.formState.errors.value_recovered?.message}
               />
             </Grid>
 
@@ -421,14 +504,40 @@ const Case = () => {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <Typography variant="h2" className="sub-header">
+                Investigating Officer
+              </Typography>
+            </Grid>
+
             <Grid item xs={12} md={6}>
               <TextField
                 {...form.register('investigation_officer')}
                 fullWidth
-                label="Investigation Officer"
+                label="Name"
                 variant="outlined"
                 error={!!form.formState.errors.investigation_officer}
                 helperText={form.formState.errors.investigation_officer?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                {...form.register('investigation_desig')}
+                fullWidth
+                label="Designation"
+                variant="outlined"
+                error={!!form.formState.errors.investigation_desig}
+                helperText={form.formState.errors.investigation_desig?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                {...form.register('investigation_date')}
+                fullWidth
+                label="Date"
+                variant="outlined"
+                error={!!form.formState.errors.investigation_date}
+                helperText={form.formState.errors.investigation_date?.message}
               />
             </Grid>
 
