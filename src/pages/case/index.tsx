@@ -18,6 +18,7 @@ interface CaseFormData {
   date_received: string;
   time_received: string;
   complainant_name: string;
+  complainant_reg: string;
   complainant_dept: string;
   complainant_gender: string;
   complainant_address: string;
@@ -46,6 +47,7 @@ const CaseFormValidation = z.object({
   date_received: z.string().optional(),
   time_received: z.string().optional(),
   complainant_name: z.string().optional(),
+  complainant_reg: z.string().optional(),
   complainant_dept: z.string().optional(),
   complainant_gender: z.string().optional(),
   complainant_address: z.string().optional(),
@@ -74,6 +76,7 @@ const CaseFormDefaultValues: CaseFormData = {
   date_received: '',
   time_received: '',
   complainant_name: '',
+  complainant_reg: '',
   complainant_dept: '',
   complainant_gender: '',
   complainant_address: '',
@@ -193,18 +196,28 @@ const Case = () => {
               </Typography>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('complainant_name')}
                 fullWidth
-                label="Name"
+                label="Full Name"
+                variant="outlined"
+                error={!!form.formState.errors.complainant_name}
+                helperText={form.formState.errors.complainant_name?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField
+                {...form.register('complainant_reg')}
+                fullWidth
+                label="Registration Number"
                 variant="outlined"
                 error={!!form.formState.errors.complainant_name}
                 helperText={form.formState.errors.complainant_name?.message}
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 {...form.register('complainant_dept')}
                 fullWidth

@@ -8,6 +8,7 @@ import Splash from 'components/loading/Splash';
 import PageLoader from 'components/loading/PageLoader';
 import paths from './paths';
 import Case from 'pages/case';
+import Statistics from 'pages/statistics';
 
 const App = lazy(() => import('App'));
 const Dashboard = lazy(() => import('pages/dashboard'));
@@ -40,6 +41,10 @@ const router = createBrowserRouter(
             {
               path: '/dashboard/case',
               element: <Case/>
+            },
+            {
+              path: '/dashboard/statistics',
+              element: <Statistics/>
             }
           ],
         },

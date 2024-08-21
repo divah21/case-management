@@ -34,18 +34,20 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
+    id: 'documents',
+    subheader: 'Statistics',
+    path: '/dashboard/statistics',
+    icon: 'mingcute:plugin-2-fill',
+    active: true,
+  },
+  {
     id: 'users',
     subheader: 'Users',
     path: '/',
     icon: 'mingcute:user-2-fill',
   },
 
-  {
-    id: 'documents',
-    subheader: 'documents',
-    path: '/',
-    icon: 'mingcute:plugin-2-fill',
-  },
+  
   {
     id: 'authentication',
     subheader: 'Create Users',
