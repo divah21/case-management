@@ -342,195 +342,324 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           toolbar: { setRows, setRowModesModel },
         }}
       />
-       <Modal
-      open={!!selectedRow} // Open modal if a row is selected
-      onClose={handleClose}
-      aria-labelledby="view-case-modal"
-      aria-describedby="view-case-modal-description"
-    >
-      <Box
-        sx={{
-          width: '90%',
-          height: '95%',
-          backgroundColor: '#081028',
-          color: '#fff',
-          padding: '50px',
-          margin: 'auto',
-          marginTop: '2%',
-          borderRadius: '8px',
-          overflowY: 'auto',
-        }}
-      >
-        {selectedRow && (
-          <Grid container spacing={3} sx={{ paddingBottom: 10 }}>
+<Modal
+  open={!!selectedRow} // Open modal if a row is selected
+  onClose={handleClose}
+  aria-labelledby="view-case-modal"
+  aria-describedby="view-case-modal-description"
+>
+  <Box
+    sx={{
+      width: '90%',
+      height: '95%',
+      backgroundColor: '#081028',
+      color: '#fff',
+      padding: '50px',
+      margin: 'auto',
+      marginTop: '2%',
+      borderRadius: '8px',
+      overflowY: 'auto',
+    }}
+  >
+    {selectedRow && (
+      <Grid container spacing={3} sx={{ paddingBottom: 10 }}>
 
-            <Grid item xs={12}>
-              <Typography variant="h2" className="sub-header" color='primary'>
-                Case Details
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h2" className="sub-header" color="primary">
+            Case Details
+          </Typography>
+        </Grid>
 
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: 'primary.main' }} />
-            </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary.main' }} />
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="h5" gutterBottom>
-                CR: {selectedRow.id}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>UZ CR REF:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.id}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>UZ RBB REF:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.id}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>POLICE STATION REF:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.id}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Complainant: </strong> {selectedRow.client.name}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Date:</strong>
+          </Typography>
+          <Typography variant="body2">28-Aug-2024</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Date:</strong> {selectedRow.date.toDateString()}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Time:</strong>
+          </Typography>
+          <Typography variant="body2">08:00</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Status:</strong> {selectedRow.status}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Status:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.status}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Location:</strong> {selectedRow.country}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Station:</strong>
+          </Typography>
+          <Typography variant="body2">Mt Pleasant Police Station</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Total:</strong> {selectedRow.total}
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary' }} />
+        </Grid>
 
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: 'primary' }} />
-            </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className="sub-header" color="primary">
+            Complainant Information
+          </Typography>
+        </Grid>
 
-            <Grid item xs={12}>
-              <Typography variant="h3" className="sub-header" color='primary'>
-                Complainant Information
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Name:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_name}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant RegNumber:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_reg}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Department:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_dept}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Degree Programme:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_programme}</Typography>
+        </Grid>
 
-            
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Contact:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_contact}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Complainant Name:</strong> {selectedRow.complainant_name}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Address:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_address}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Complainant Contact:</strong> {selectedRow.complainant_contact}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Gender:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_gender}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Complainant Address:</strong> {selectedRow.complainant_address}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Complainant Age:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.complainant_age}</Typography>
+        </Grid>
 
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: 'primary' }} />
-            </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary' }} />
+        </Grid>
 
-            <Grid item xs={12}>
-              <Typography variant="h3" className="sub-header" color='primary'>
-                Accused Information
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className="sub-header" color="primary">
+            Accused Information
+          </Typography>
+        </Grid>
 
-           
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Name:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_name}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused RegNumber:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_reg}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Department:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_dept}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Accused Name:</strong> {selectedRow.accused_name}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Degree Programme:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_programme}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Contact:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_contact}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Address:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_address}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Gender:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_gender}</Typography>
+        </Grid>
 
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: 'primary' }} />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h3" className="sub-header" color='primary'>
-                Case Information
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Accused Age:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.accused_age}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Offence:</strong> {selectedRow.offence}
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary' }} />
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Date of Occurrence:</strong> {selectedRow.date_occurance}
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className="sub-header" color="primary">
+            Offence | Misconduct
+          </Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Place of Occurrence:</strong> {selectedRow.place_of_occurance}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Offence Type:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.offence}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Modus Operandi:</strong> {selectedRow.mod_operandi}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Date of Occurrence:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.date_occurance}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Property List:</strong> {selectedRow.property_list}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Place of Occurrence:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.place_of_occurance}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Value Stolen:</strong> {selectedRow.value_stolen}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Modus Operandi:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.mod_operandi}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary' }} />
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Value Recorded:</strong> {selectedRow.value_recorded}
-              </Typography>
-            </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className="sub-header" color="primary">
+            Property
+          </Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Exhibit Book Reference:</strong> {selectedRow.exhibit_book_ref}
-              </Typography>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Property List:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.property_list}</Typography>
+        </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Typography variant="body1" gutterBottom>
-                <strong>Investigation Officer:</strong> {selectedRow.investigation_officer}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: 'primary.main' }} />
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Value Stolen:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.value_stolen}</Typography>
+        </Grid>
 
-          </Grid>
-        )}
-        <Button variant='contained' color='primary' onClick={handleClose} style={{ height: 40 }}  >
-          Close
-        </Button>
-      </Box>
-    </Modal>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Value Recovered:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.value_recovered}</Typography>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Exhibit Book Reference:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.exhibit_book_ref}</Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary' }} />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" className="sub-header" color="primary">
+            Investigating Officer
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Investigation Officer:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.investigation_officer}</Typography>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Designation:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.investigation_desig}</Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1" gutterBottom>
+            <strong>Investigation Date:</strong>
+          </Typography>
+          <Typography variant="body2">{selectedRow.investigation_date}</Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Divider sx={{ borderColor: 'primary.main' }} />
+        </Grid>
+      </Grid>
+    )}
+    <Button variant="contained" color="primary" onClick={handleClose} style={{ height: 40 }}>
+      Close
+    </Button>
+  </Box>
+</Modal>
+
     </>
   );
 };
