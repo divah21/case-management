@@ -5,18 +5,17 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import IconifyIcon from 'components/base/IconifyIcon';
-import RateChip from 'components/chips/RateChip';
+
 
 interface TopCardProps {
   icon: string;
   title: string;
   value: string;
-  rate: string;
-  isUp: boolean;
+
 }
 
 const TopCard = (props: TopCardProps) => {
-  const { icon, title, value, rate, isUp } = props;
+  const { icon, title, value } = props;
 
   return (
     <Grid item xs={12} sm={6} xl={3}>
@@ -50,8 +49,7 @@ const TopCard = (props: TopCardProps) => {
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
             {value}
           </Typography>
-          <RateChip rate={rate} isUp={isUp} />
-        </Stack>
+          </Stack>
       </Stack>
     </Grid>
   );

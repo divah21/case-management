@@ -10,6 +10,9 @@ const Dashboard = () => {
   return (
     <Grid container spacing={{ xs: 2.5, sm: 3, lg: 3.75 }}>
       <Grid item xs={12}>
+        <OrdersStatus />
+      </Grid>
+      <Grid item xs={12}>
         <TopCards />
       </Grid>
 
@@ -29,9 +32,6 @@ const Dashboard = () => {
         <CompletedTask />
       </Grid>
 
-      <Grid item xs={12}>
-        <OrdersStatus />
-      </Grid>
     </Grid>
   );
 };

@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import RateChip from 'components/chips/RateChip';
 import DateSelect from 'components/dates/DateSelect';
 import IconifyIcon from 'components/base/IconifyIcon';
 import CompletedTaskChart from './CompletedTaskChart';
@@ -23,8 +22,7 @@ const CompletedTask = () => {
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
             257
           </Typography>
-          <RateChip rate={'16.8%'} isUp={true} />
-        </Stack>
+          </Stack>
 
         <DateSelect />
       </Stack>

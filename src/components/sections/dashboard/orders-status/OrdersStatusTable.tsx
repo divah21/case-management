@@ -116,9 +116,6 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
             <Typography variant="subtitle1" fontSize="caption.fontSize">
               {params.row.client.name}
             </Typography>
-            <Typography variant="subtitle2" color="text.secondary" fontSize="caption.fontSize">
-              {params.row.client.email}
-            </Typography>
           </Stack>
         );
       },
@@ -385,7 +382,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
 
             <Grid item xs={12} md={6}>
               <Typography variant="body1" gutterBottom>
-                <strong>Complainant: </strong> {selectedRow.client.name} ({selectedRow.client.email})
+                <strong>Complainant: </strong> {selectedRow.client.name}
               </Typography>
             </Grid>
 
@@ -403,7 +400,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
 
             <Grid item xs={12} md={6}>
               <Typography variant="body1" gutterBottom>
-                <strong>Country:</strong> {selectedRow.country}
+                <strong>Location:</strong> {selectedRow.country}
               </Typography>
             </Grid>
 
