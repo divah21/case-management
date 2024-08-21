@@ -9,6 +9,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useNavigate } from 'react-router-dom';
 
 // Define the interface for the form data
 interface CaseFormData {
@@ -121,6 +122,7 @@ const CaseFormDefaultValues: CaseFormData = {
 
 const Case = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<CaseFormData>({
     resolver: zodResolver(CaseFormValidation),
@@ -131,6 +133,7 @@ const Case = () => {
     setIsLoading(true);
     console.log('Form Submitted:', values);
     setIsLoading(false);
+    navigate("/dashboard");
   };
 
   return (
@@ -550,6 +553,7 @@ const Case = () => {
                 type="submit"
                 disabled={isLoading}
                 startIcon={isLoading && <CircularProgress size={20} />}
+                
               >
                 Submit
               </Button>
