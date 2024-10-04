@@ -23,6 +23,7 @@ import {
   useGridApiRef,
 } from '@mui/x-data-grid';
 import caseService from 'api/services/case.service';
+import { CaseData } from 'types/case';
 
 interface OrdersStatusTableProps {
   searchText: string;
@@ -39,14 +40,14 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
       try {
         const response = await caseService.getAllCases();
         const apiData = response.data.data;
-        const mappedRows = apiData.map((caseData: any) => ({
-          id: caseData.id,
+        const mappedRows = apiData.map((caseData: CaseData) => ({
+          rowmap: caseData.id,
           regNumber: caseData.complainant_regnumber,
           client: { name: caseData.complainant_name },
-          date: caseData.case_date_received,
+          datemap: caseData.case_date_received,
           status: caseData.uz_cr_ref, 
           country: caseData.complainant_address,
-          total: caseData.offense,
+          totalmap: caseData.offense,
           ...caseData,
          
         }));
@@ -113,7 +114,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
 
   const columns: GridColDef[] = [
     {
-      field: 'id',
+      field: 'rowmap',
       headerName: 'CR',
       minWidth: 80,
       flex: 1,
@@ -158,7 +159,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
       ),
     },
     {
-      field: 'date',
+      field: 'datemap',
       headerName: 'Date',
       editable: true,
       minWidth: 100,
@@ -238,7 +239,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
       ),
     },
     {
-      field: 'total',
+      field: 'totalmap',
       headerName: 'Case Short Description',
       headerAlign: 'right',
       align: 'right',
