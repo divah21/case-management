@@ -1,5 +1,5 @@
 import axios from "axios";
-import authHeader from "../services/auth-headers";
+
 
 export const apiUrl = "https://case-management-strapi.onrender.com/api";
 

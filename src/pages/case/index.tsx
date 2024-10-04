@@ -121,6 +121,7 @@ const CaseFormDefaultValues: CaseFormData = {
   investigating_officer_name: '',
   investigating_officer_designation: '',
   date: '',
+  
 };
 
 const Case = () => {
@@ -138,7 +139,7 @@ const Case = () => {
     try {
      
       await caseService.create({
-        data: values, 
+        data: values
       });
   
       toast.success('Record Created Successfully:');

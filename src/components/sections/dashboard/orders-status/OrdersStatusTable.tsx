@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import StatusChip from 'components/chips/StatusChip';
 import IconifyIcon from 'components/base/IconifyIcon';
 import DataGridFooter from 'components/common/DataGridFooter';
-import caseService from '../../../../api/services/case.service';
+
 import {
   GridRowModesModel,
   GridRowModes,
@@ -22,6 +22,7 @@ import {
   GridRowEditStopReasons,
   useGridApiRef,
 } from '@mui/x-data-grid';
+import caseService from 'api/services/case.service';
 
 interface OrdersStatusTableProps {
   searchText: string;
