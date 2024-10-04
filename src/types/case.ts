@@ -36,5 +36,6 @@ export interface Case {
     date: string;
     total: string;// If this is the missing field
     // Add any other fields required by the map function
-  }
+  };
+ 
   

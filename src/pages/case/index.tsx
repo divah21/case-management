@@ -14,7 +14,10 @@ import caseService from '../../api/services/case.service';
 
 import { toast } from 'react-toastify';
 
-// Define the interface for the form data
+export interface CaseCreatePayload {
+  data: CaseFormData;
+}
+
 interface CaseFormData {
   uz_cr_ref: string;
   uz_rrb_ref: string;
@@ -138,9 +141,10 @@ const Case = () => {
    
     try {
      
-      await caseService.create({
-        data: values
-      });
+      const payload: CaseCreatePayload = { data: values };
+
+      // Send the payload with the correct structure
+      await caseService.create(payload);
   
       toast.success('Record Created Successfully:');
       setIsLoading(false);
