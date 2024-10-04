@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { ordersStatusData } from 'data/ordersStatusData';
 import { Box, Button, Divider, Grid, Modal, SelectChangeEvent } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
@@ -9,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import StatusChip from 'components/chips/StatusChip';
 import IconifyIcon from 'components/base/IconifyIcon';
 import DataGridFooter from 'components/common/DataGridFooter';
+import caseService from '../../../../api/services/case.service';
 import {
   GridRowModesModel,
   GridRowModes,
@@ -30,9 +29,35 @@ interface OrdersStatusTableProps {
 
 const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
   const apiRef = useGridApiRef<GridApi>();
-  const [rows, setRows] = useState(ordersStatusData);
+  const [rows, setRows] = useState<GridRowModel[]>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [selectedRow, setSelectedRow] = useState<GridRowModel | null>(null);
+
+  useEffect(() => {
+    const fetchCases = async () => {
+      try {
+        const response = await caseService.getAllCases();
+        const apiData = response.data.data;
+        const mappedRows = apiData.map((caseData: any) => ({
+          id: caseData.id,
+          regNumber: caseData.complainant_regnumber,
+          client: { name: caseData.complainant_name },
+          date: caseData.case_date_received,
+          status: caseData.uz_cr_ref, 
+          country: caseData.complainant_address,
+          total: caseData.offense,
+          ...caseData,
+         
+        }));
+
+        setRows(mappedRows);
+      } catch (error) {
+        console.error('Failed to fetch cases', error);
+      }
+    };
+
+    fetchCases();
+  }, []);
 
   useEffect(() => {
     apiRef.current.setQuickFilterValues(searchText.split(/\b\W+\b/).filter((word) => word !== ''));
@@ -46,7 +71,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
 
   const handleClose = () => setSelectedRow(null);
 
-  const handleViewClick = (id: GridRowId) => () => {
+   const handleViewClick = (id: GridRowId) => () => {
     const rowData = rows.find((row) => row.id === id);
     setSelectedRow(rowData || null);
   };
@@ -103,27 +128,36 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
         <Stack alignItems="center" gap={0.75}>
           <IconifyIcon icon="mingcute:user-2-fill" color="neutral.main" fontSize="body2.fontSize" />
           <Typography variant="caption" mt={0.25} letterSpacing={0.5}>
-          Complainant Name
+            Complainant Name
           </Typography>
         </Stack>
       ),
-      valueGetter: (params: { name: string; email: string }) => {
-        return `${params.name} ${params.email}`;
-      },
-      renderCell: (params) => {
-        return (
-          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
-            <Typography variant="subtitle1" fontSize="caption.fontSize">
-              {params.row.client.name}
-            </Typography>
-          </Stack>
-        );
-      },
-      sortComparator: (v1, v2) => v1.localeCompare(v2),
+      renderCell: (params) => (
+        <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
+          <Typography variant="subtitle1" fontSize="caption.fontSize">
+            {params.row.client.name}
+          </Typography>
+        </Stack>
+      ),
+    },
+    {
+      field: 'regNumber',
+      headerName: 'Complainant RegNumber',
+      sortable: false,
+      flex: 1,
+      minWidth: 120,
+      resizable: false,
+      editable: true,
+      renderHeader: () => (
+        <Stack alignItems="center" gap={0.75}>
+          <Typography mt={0.175} variant="caption" letterSpacing={0.5}>
+          Complainant RegNumber
+          </Typography>
+        </Stack>
+      ),
     },
     {
       field: 'date',
-      type: 'date',
       headerName: 'Date',
       editable: true,
       minWidth: 100,
@@ -137,7 +171,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           </Typography>
         </Stack>
       ),
-      renderCell: (params) => format(new Date(params.value), 'MMM dd, yyyy'),
+     
     },
     {
       field: 'status',
@@ -158,13 +192,11 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           </Typography>
         </Stack>
       ),
-      renderCell: (params) => {
-        return (
-          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
-            <StatusChip status={params.value} />
-          </Stack>
-        );
-      },
+      renderCell: (params) => (
+        <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
+          <StatusChip status={params.value} />
+        </Stack>
+      ),
       renderEditCell: (params: GridRenderEditCellParams) => {
         const handleChange = (event: SelectChangeEvent<string>) => {
           params.api.setEditCellValue({
@@ -311,6 +343,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
     },
   ];
 
+
   return (
     <>
       <DataGrid
@@ -322,12 +355,12 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 6,
+              pageSize: 8,
             },
           },
         }}
         checkboxSelection
-        pageSizeOptions={[6]}
+        pageSizeOptions={[8]}
         disableColumnMenu
         disableVirtualization
         disableRowSelectionOnClick
@@ -378,33 +411,33 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>UZ CR REF:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.id}</Typography>
+          <Typography variant="body2">{selectedRow.uz_cr_ref}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>UZ RBB REF:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.id}</Typography>
+          <Typography variant="body2">{selectedRow.uz_rrb_ref}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>POLICE STATION REF:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.id}</Typography>
+          <Typography variant="body2">{selectedRow.police_station_ref}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
-            <strong>Date:</strong>
+            <strong>Date Recieved:</strong>
           </Typography>
-          <Typography variant="body2">28-Aug-2024</Typography>
+          <Typography variant="body2">{selectedRow.case_date_received}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Time:</strong>
           </Typography>
-          <Typography variant="body2">08:00</Typography>
+          <Typography variant="body2">{selectedRow.time_received}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
@@ -414,12 +447,6 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body2">{selectedRow.status}</Typography>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="body1" gutterBottom>
-            <strong>Station:</strong>
-          </Typography>
-          <Typography variant="body2">Mt Pleasant Police Station</Typography>
-        </Grid>
 
         <Grid item xs={12}>
           <Divider sx={{ borderColor: 'primary' }} />
@@ -441,13 +468,13 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Complainant RegNumber:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.complainant_reg}</Typography>
+          <Typography variant="body2">{selectedRow.complainant_regnumber}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Complainant Department:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.complainant_dept}</Typography>
+          <Typography variant="body2">{selectedRow.complainant_department}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
@@ -460,7 +487,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Complainant Contact:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.complainant_contact}</Typography>
+          <Typography variant="body2">{selectedRow.complainant_mobile}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
@@ -504,13 +531,13 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Accused RegNumber:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.accused_reg}</Typography>
+          <Typography variant="body2">{selectedRow.accused_reg_number}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Accused Department:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.accused_dept}</Typography>
+          <Typography variant="body2">{selectedRow.accused_department}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
@@ -523,7 +550,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Accused Contact:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.accused_contact}</Typography>
+          <Typography variant="body2">{selectedRow.accused_mobile}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
@@ -559,14 +586,14 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Offence Type:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.offence}</Typography>
+          <Typography variant="body2">{selectedRow.offense}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Date of Occurrence:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.date_occurance}</Typography>
+          <Typography variant="body2">{selectedRow.offense_date_of_occurance}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
@@ -580,7 +607,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Modus Operandi:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.mod_operandi}</Typography>
+          <Typography variant="body2">{selectedRow.modus_operandi}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Divider sx={{ borderColor: 'primary' }} />
@@ -603,21 +630,21 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Value Stolen:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.value_stolen}</Typography>
+          <Typography variant="body2">{selectedRow.property_value_stolen}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Value Recovered:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.value_recovered}</Typography>
+          <Typography variant="body2">{selectedRow.property_value_recorded}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Exhibit Book Reference:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.exhibit_book_ref}</Typography>
+          <Typography variant="body2">{selectedRow.property_exhibit_book_reference}</Typography>
         </Grid>
 
         <Grid item xs={12}>
@@ -633,20 +660,20 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           <Typography variant="body1" gutterBottom>
             <strong>Investigation Officer:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.investigation_officer}</Typography>
+          <Typography variant="body2">{selectedRow.investigating_officer_name}</Typography>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Designation:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.investigation_desig}</Typography>
+          <Typography variant="body2">{selectedRow.investigating_officer_designation}</Typography>
         </Grid>
         <Grid item xs={12} md={4}>
           <Typography variant="body1" gutterBottom>
             <strong>Investigation Date:</strong>
           </Typography>
-          <Typography variant="body2">{selectedRow.investigation_date}</Typography>
+          <Typography variant="body2">{selectedRow.date}</Typography>
         </Grid>
 
         <Grid item xs={12}>

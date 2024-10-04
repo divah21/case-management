@@ -64,7 +64,7 @@ const OrdersStatus = () => {
         </Stack>
       </Stack>
 
-      <Box mt={1.5} sx={{ height: 594, width: 1 }}>
+      <Box mt={1.5} sx={{ height: screen, width: 1 }}>
         <OrdersStatusTable searchText={searchText} />
       </Box>
     </Paper>

@@ -22,6 +22,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         <Topbar isClosing={isClosing} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
         {children}
         <Footer />
+        
       </Stack>
     </Stack>
   );
