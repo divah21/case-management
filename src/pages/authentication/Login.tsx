@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
@@ -10,36 +11,73 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import IconifyIcon from 'components/base/IconifyIcon';
-import paths from 'routes/paths';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface User {
-  [key: string]: string;
+  email: string;
+  password: string;
 }
 
 const Login = () => {
   const [user, setUser] = useState<User>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const validateForm = (): boolean => {
+    if (!user.email || !user.password) {
+      setError('Both email and password are required');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user)
-    navigate('/dashboard');
+    setError(null);
+
+    if (!validateForm()) return;
+
+    try {
+      // API call to Strapi login
+      const response = await axios.post('https://case-management-strapi.onrender.com/api/auth/local', {
+        identifier: user.email,
+        password: user.password,
+      });
+
+   
+      const { jwt, user: loggedInUser } = response.data;
+
+      localStorage.setItem('jwt', jwt);
+
+      toast.success('Login successful:', loggedInUser);
+
+      navigate('/dashboard');
+    } catch (err) {
+      toast.error("failed to login");
+      setError('Invalid email or password. Please try again.');
+    }
   };
 
   return (
     <>
-      <Typography align="center" variant="h3" fontWeight={600} sx={{paddingBottom:2}}>
+      <Typography align="center" variant="h3" fontWeight={600} sx={{ paddingBottom: 2 }}>
         Welcome!
       </Typography>
-     
-      <Divider sx={{ my: 3 }}> Your credentials</Divider>
+
+      <Divider sx={{ my: 3 }}>Your credentials</Divider>
+
       <Stack onSubmit={handleSubmit} component="form" direction="column" gap={2}>
+        {error && (
+          <Typography color="error" variant="body2">
+            {error}
+          </Typography>
+        )}
         <TextField
           id="email"
           name="email"
@@ -88,17 +126,11 @@ const Login = () => {
             Forgot password?
           </Link>
         </Stack>
-        <Button type="submit" variant="contained" size="medium" fullWidth >
+        <Button type="submit" variant="contained" size="medium" fullWidth>
           Submit
         </Button>
-        <Typography
-          my={3}
-          color="text.secondary"
-          variant="body2"
-          align="center"
-          letterSpacing={0.5}
-        >
-          Don't have an account? <Link href={paths.signup}>{'Signup'}</Link>
+        <Typography my={3} color="text.secondary" variant="body2" align="center" letterSpacing={0.5}>
+          Don't have an account? <Link >Contact Admin</Link>
         </Typography>
       </Stack>
     </>
