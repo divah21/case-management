@@ -34,7 +34,9 @@ export interface Case {
     investigating_officer_name: string;
     investigating_officer_designation: string;
     date: string;
-    total: string;// If this is the missing field
+    total: string;
+    status: string;
+    // If this is the missing field
     // Add any other fields required by the map function
   };
 
@@ -74,6 +76,7 @@ export interface Case {
     investigating_officer_designation: string;
     date: string;
     total: string;
+    status:string;
     // Add any other fields from `caseData` that you need
   }
  

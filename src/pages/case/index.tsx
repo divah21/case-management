@@ -200,7 +200,7 @@ const Case = () => {
               <TextField
                 {...form.register('police_station_ref')}
                 fullWidth
-                label="Police Station Ref"
+                label="Police Station Name and Ref"
                 variant="outlined"
                 error={!!form.formState.errors.police_station_ref}
                 helperText={form.formState.errors.police_station_ref?.message}
@@ -212,6 +212,7 @@ const Case = () => {
                 {...form.register('case_date_received')}
                 fullWidth
                 label="Date Received"
+                type='date'
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -225,6 +226,7 @@ const Case = () => {
                 {...form.register('time_received')}
                 fullWidth
                 label="Time Received"
+                type='time'
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -556,6 +558,7 @@ const Case = () => {
                 {...form.register('date')}
                 fullWidth
                 label="Date"
+                type='date'
                 variant="outlined"
                 error={!!form.formState.errors.date}
                 helperText={form.formState.errors.date?.message}

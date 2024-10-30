@@ -45,7 +45,7 @@ const OrdersStatusTable = ({ searchText }: OrdersStatusTableProps) => {
           regNumber: caseData.complainant_regnumber,
           client: { name: caseData.complainant_name },
           datemap: caseData.case_date_received,
-          status: caseData.uz_cr_ref, 
+          state: caseData.status, 
           country: caseData.complainant_address,
           totalmap: caseData.offense,
           ...caseData,

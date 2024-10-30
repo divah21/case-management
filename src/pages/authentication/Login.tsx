@@ -10,34 +10,60 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import IconifyIcon from 'components/base/IconifyIcon';
-import paths from 'routes/paths';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';  
+import { toast } from 'react-toastify'; 
 
 interface User {
-  [key: string]: string;
+  email: string;
+  password: string;
 }
 
 const Login = () => {
   const [user, setUser] = useState<User>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  
   const navigate = useNavigate();
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user)
-    navigate('/dashboard');
+    setIsLoading(true);
+  
+    try {
+    
+      const response = await axios.post("https://case-management-strapi.onrender.com/api/auth/local", {
+        data: {
+        identifier: user.email,  
+        password: user.password,
+        }
+      });
+  
+      const { jwt } = response.data;
+      localStorage.setItem('token', jwt); 
+  
+      toast.success('Login successful!');
+      setIsLoading(false);
+  
+      // Navigate to the dashboard
+      navigate('/dashboard');
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Login failed:', error);
+    }
   };
+  
 
   return (
     <>
-      <Typography align="center" variant="h3" fontWeight={600} sx={{paddingBottom:2}}>
+      <Typography align="center" variant="h3" fontWeight={600} sx={{ paddingBottom: 2 }}>
         Welcome!
       </Typography>
-     
       <Divider sx={{ my: 3 }}> Your credentials</Divider>
       <Stack onSubmit={handleSubmit} component="form" direction="column" gap={2}>
         <TextField
@@ -63,7 +89,6 @@ const Login = () => {
           placeholder="Your Password"
           autoComplete="current-password"
           fullWidth
-          autoFocus
           required
           InputProps={{
             endAdornment: (
@@ -88,8 +113,8 @@ const Login = () => {
             Forgot password?
           </Link>
         </Stack>
-        <Button type="submit" variant="contained" size="medium" fullWidth >
-          Submit
+        <Button type="submit" variant="contained" size="medium" fullWidth disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Submit'}
         </Button>
         <Typography
           my={3}
@@ -98,7 +123,7 @@ const Login = () => {
           align="center"
           letterSpacing={0.5}
         >
-          Don't have an account? <Link href={paths.signup}>{'Signup'}</Link>
+          Don't have an account? <Link href="/signup">{'Signup'}</Link>
         </Typography>
       </Stack>
     </>

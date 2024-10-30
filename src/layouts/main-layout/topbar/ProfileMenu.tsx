@@ -82,7 +82,7 @@ const ProfileMenu = () => {
                 bgcolor: theme.palette.primary.main,
               })}
             />
-            <Typography variant="subtitle2">Sauce Vee</Typography>
+            <Typography variant="subtitle2">Vimbai.Gurumombe</Typography>
           </Stack>
         </ButtonBase>
       </Tooltip>
