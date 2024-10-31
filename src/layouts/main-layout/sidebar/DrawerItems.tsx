@@ -15,8 +15,16 @@ import ProfileListItem from './list-items/ProfileListItem';
 import ListItem from './list-items/ListItem';
 import LogoImg from 'assets/images/Logo.png';
 import { topListData, bottomListData, profileListData } from 'data/sidebarListData';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const DrawerItems = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwt'); // Clear the JWT
+    navigate('/'); // Redirect to login page
+  };
+
   return (
     <>
       <Stack
@@ -79,6 +87,7 @@ const DrawerItems = () => {
           variant="contained"
           color="primary"
           size="large"
+          onClick={handleLogout} // Attach handleLogout to onClick
           endIcon={<IconifyIcon icon="mingcute:arrow-right-line" />}
           sx={{ width: 1 }}
         >

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { jwtDecode } from "jwt-decode";
 import Menu from '@mui/material/Menu';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -9,7 +10,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconifyIcon from 'components/base/IconifyIcon';
-
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface MenuItems {
   id: number;
@@ -17,42 +18,25 @@ interface MenuItems {
   icon: string;
 }
 
+interface DecodedToken {
+  username: string;
+  email: string;
+}
+
 const menuItems: MenuItems[] = [
-  {
-    id: 1,
-    title: 'View Profile',
-    icon: 'mingcute:user-2-fill',
-  },
-  {
-    id: 2,
-    title: 'Account Settings',
-    icon: 'material-symbols:settings-account-box-rounded',
-  },
-  {
-    id: 3,
-    title: 'Notifications',
-    icon: 'ion:notifications',
-  },
-  {
-    id: 4,
-    title: 'Switch Account',
-    icon: 'material-symbols:switch-account',
-  },
-  {
-    id: 5,
-    title: 'Help Center',
-    icon: 'material-symbols:live-help',
-  },
-  {
-    id: 6,
-    title: 'Logout',
-    icon: 'material-symbols:logout',
-  },
+  { id: 1, title: 'View Profile', icon: 'mingcute:user-2-fill' },
+  { id: 2, title: 'Account Settings', icon: 'material-symbols:settings-account-box-rounded' },
+  { id: 3, title: 'Notifications', icon: 'ion:notifications' },
+  { id: 4, title: 'Switch Account', icon: 'material-symbols:switch-account' },
+  { id: 5, title: 'Help Center', icon: 'material-symbols:live-help' },
+  { id: 6, title: 'Logout', icon: 'material-symbols:logout' }, // Logout item
 ];
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [userInfo, setUserInfo] = useState<DecodedToken | null>(null);
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -60,6 +44,23 @@ const ProfileMenu = () => {
 
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      try {
+        const decoded: DecodedToken = jwtDecode(token);
+        setUserInfo(decoded);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwt'); // Clear JWT
+    navigate('/'); // Redirect to login page
   };
 
   return (
@@ -82,7 +83,7 @@ const ProfileMenu = () => {
                 bgcolor: theme.palette.primary.main,
               })}
             />
-            <Typography variant="subtitle2">Vimbai.Gurumombe</Typography>
+            <Typography variant="subtitle2">{userInfo?.username || 'User'}</Typography>
           </Stack>
         </ButtonBase>
       </Tooltip>
@@ -120,28 +121,30 @@ const ProfileMenu = () => {
           />
           <Stack direction="column">
             <Typography variant="body2" fontWeight={500}>
-              Sauce Vee
+              {userInfo?.username || 'User'}
             </Typography>
             <Typography variant="caption" fontWeight={400} color="text.secondary">
-              saucevee@students.uz.ac.zw
+              {userInfo?.email || 'guest@example.com'}
             </Typography>
           </Stack>
         </MenuItem>
 
         <Divider />
 
-        {menuItems.map((item) => {
-          return (
-            <MenuItem key={item.id} onClick={handleProfileMenuClose} sx={{ py: 1 }}>
-              <ListItemIcon sx={{ mr: 2, fontSize: 'button.fontSize' }}>
-                <IconifyIcon icon={item.icon} />
-              </ListItemIcon>
-              <Typography variant="body2" color="text.secondary">
-                {item.title}
-              </Typography>
-            </MenuItem>
-          );
-        })}
+        {menuItems.map((item) => (
+          <MenuItem
+            key={item.id}
+            onClick={item.id === 6 ? handleLogout : handleProfileMenuClose} // Handle Logout for item 6
+            sx={{ py: 1 }}
+          >
+            <ListItemIcon sx={{ mr: 2, fontSize: 'button.fontSize' }}>
+              <IconifyIcon icon={item.icon} />
+            </ListItemIcon>
+            <Typography variant="body2" color="text.secondary">
+              {item.title}
+            </Typography>
+          </MenuItem>
+        ))}
       </Menu>
     </>
   );

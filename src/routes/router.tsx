@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+// routes/router.ts
 import { Suspense, lazy } from 'react';
 import { Outlet, createBrowserRouter } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import PageLoader from 'components/loading/PageLoader';
 import paths from './paths';
 import Case from 'pages/case';
 import Statistics from 'pages/statistics';
+import ProtectedRoute from 'pages/authentication/ProtectedRoute';
 
 const App = lazy(() => import('App'));
 const Dashboard = lazy(() => import('pages/dashboard'));
@@ -27,11 +28,13 @@ const router = createBrowserRouter(
         {
           path: '/dashboard',
           element: (
-            <MainLayout>
-              <Suspense fallback={<PageLoader />}>
-                <Outlet />
-              </Suspense>
-            </MainLayout>
+            <ProtectedRoute> {/* Wrap protected routes with ProtectedRoute */}
+              <MainLayout>
+                <Suspense fallback={<PageLoader />}>
+                  <Outlet />
+                </Suspense>
+              </MainLayout>
+            </ProtectedRoute>
           ),
           children: [
             {
@@ -40,12 +43,12 @@ const router = createBrowserRouter(
             },
             {
               path: '/dashboard/case',
-              element: <Case/>
+              element: <Case />,
             },
             {
               path: '/dashboard/statistics',
-              element: <Statistics/>
-            }
+              element: <Statistics />,
+            },
           ],
         },
         {
@@ -69,7 +72,6 @@ const router = createBrowserRouter(
       ],
     },
   ],
- 
 );
 
 export default router;
